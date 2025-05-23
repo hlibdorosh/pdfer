@@ -69,11 +69,11 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             ['merge_pdf', 'merge', true],
             ['split_pdf', 'split', true],
             ['compress_pdf', 'compress', true],
+            ['view_pdf_info', 'info', true],
             ['rotate_pages', 'rotate'],
             ['add_watermark', 'watermark'],
             ['remove_pages', 'remove', true],
             ['extract_images', 'extract'],
-            ['View PDF Info', 'info', true],
 
         ];
 
@@ -92,13 +92,13 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             <h6 class="mt-2">' . $title . '</h6>';
 
             if ($active && $action === 'merge') {
-                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#mergeModal">' . ($t['merge'] ?? 'Merge') . '</a>';
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#infoModal">' . ($t['merge_pdf_files'] ?? 'Merge') . '</a>';
             } elseif ($active && $action === 'split') {
                 echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#splitModal">' . ($t['split'] ?? 'Split') . '</a>';;
             } elseif ($active && $action === 'compress'){
                 echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#compressModal">' . ($t['compress'] ?? 'Compress') . '</a>';
             } elseif ($active && $action === 'info'){
-                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#infoModal">View Info</a>';
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#infoModal">' . ($t['view_info'] ?? 'View Info') . '</a>';
             }
             else {
                 echo '<a href="#" class="btn btn-outline-primary btn-sm mt-2 disabled">Coming soon</a>';
@@ -178,7 +178,7 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
                 <div class="alert alert-danger mt-3 d-none" id="compressError"></div>
             </div>
             <div class="modal-footer">
-                <<button type="submit" class="btn btn-primary"><?= $t['compress'] ?></button>
+                <button type="submit" class="btn btn-primary"><?= $t['compress'] ?></button>
             </div>
         </form>
     </div>
@@ -189,18 +189,18 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
     <div class="modal-dialog">
         <form id="infoForm" class="modal-content" enctype="multipart/form-data">
             <div class="modal-header">
-                <h5 class="modal-title">PDF Metadata Viewer</h5>
+                <h5 class="modal-title"><?= $t['pdf_metadata_viewer'] ?? 'PDF Metadata Viewer' ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <label>Select PDF file:</label>
+                <label><?= $t['select_pdf_file'] ?? 'Select PDF file' ?>:</label>
                 <input type="file" name="file" class="form-control" accept="application/pdf" required>
 
                 <div class="alert alert-danger mt-3 d-none" id="infoError"></div>
                 <pre class="bg-light p-2 mt-3 border rounded d-none" id="infoOutput"></pre>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="submit">View Info</button>
+                <button class="btn btn-primary" type="submit"><?= $t['view_info'] ?? 'View Info' ?></button>
             </div>
         </form>
     </div>

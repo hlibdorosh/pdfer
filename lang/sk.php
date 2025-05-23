@@ -29,4 +29,13 @@ return [
 
     'error_register' => 'Registrácia zlyhala. Skúste znova.',
 
+    'view_pdf_info' => 'Zobraziť informácie o PDF',
+    'pdf_metadata_viewer' => 'Prehliadač PDF metadát',
+    'select_pdf_file' => 'Vybrať PDF súbor',
+    'view_info' => 'Zobraziť informácie',
+
+    'history' => 'História',
+
+
+
 ];

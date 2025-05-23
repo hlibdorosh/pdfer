@@ -28,4 +28,13 @@ return [
     'merge_pdf' => 'Merge PDF',
 
     'error_register' => 'Registration failed. Please try again.',
+
+    'view_pdf_info' => 'View PDF Info',
+    'pdf_metadata_viewer' => 'PDF Metadata Viewer',
+    'select_pdf_file' => 'Select PDF file',
+    'view_info' => 'View Info',
+
+    'history' => 'History',
+
+
 ];

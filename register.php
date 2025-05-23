@@ -1,21 +1,30 @@
 <?php
 session_start();
 require_once 'config.php';
-
-// === Language loader ===
+require_once '../secret.php';
 $lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'en';
 $_SESSION['lang'] = $lang;
 $lang_file = __DIR__ . "/lang/$lang.php";
 $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.php";
 
-// === DB connection ===
 $db = connectDatabase($hostname, $database, $username, $password);
 
-// === Register logic ===
+
+
+$admin_checked = false;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = 'user';
+
+    // Перевірка адмінського пароля
+    if (!empty($_POST['admin_password'])) {
+        $admin_password = $_POST['admin_password'];
+        if ($admin_password === $admin_secret) {
+            $role = 'admin';
+            $admin_checked = true;
+        }
+    }
 
     try {
         $stmt = $db->prepare("INSERT INTO users (email, password, role) VALUES (?, ?, ?)");
@@ -33,11 +42,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <title><?= $t['register_title'] ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function toggleAdmin() {
+            document.getElementById("admin-section").style.display = 'block';
+        }
+    </script>
 </head>
 <body class="bg-light">
 <div class="container mt-5">
-
-    <!-- Language Switch -->
     <div class="text-end mb-3">
         <a href="?lang=en" class="btn btn-outline-secondary btn-sm">EN</a>
         <a href="?lang=sk" class="btn btn-outline-secondary btn-sm">SK</a>
@@ -65,6 +77,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <div class="mb-3">
                         <label><?= $t['password'] ?></label>
                         <input type="password" name="password" class="form-control" required>
+                    </div>
+
+                    <button type="button" onclick="toggleAdmin()" class="btn btn-warning w-100 mb-3">Are you admin?</button>
+
+                    <div id="admin-section" style="display:none;" class="mb-3">
+                        <label>Admin password</label>
+                        <input type="password" name="admin_password" class="form-control">
                     </div>
 
                     <button class="btn btn-primary w-100"><?= $t['register_button'] ?></button>

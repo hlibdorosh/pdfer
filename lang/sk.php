@@ -26,4 +26,7 @@ return [
     'compress' => 'Komprimovať',
     'coming_soon' => 'Už čoskoro',
     'merge_pdf' => 'Zlúčiť PDF',
+
+    'error_register' => 'Registrácia zlyhala. Skúste znova.',
+
 ];

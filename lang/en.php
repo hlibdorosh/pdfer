@@ -26,4 +26,6 @@ return [
     'compress' => 'Compress',
     'coming_soon' => 'Coming soon',
     'merge_pdf' => 'Merge PDF',
+
+    'error_register' => 'Registration failed. Please try again.',
 ];

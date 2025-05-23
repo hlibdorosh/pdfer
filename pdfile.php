@@ -92,7 +92,7 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             <h6 class="mt-2">' . $title . '</h6>';
 
             if ($active && $action === 'merge') {
-                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#infoModal">' . ($t['merge_pdf_files'] ?? 'Merge') . '</a>';
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#mergeModal">' . ($t['merge_pdf_files'] ?? 'Merge') . '</a>';
             } elseif ($active && $action === 'split') {
                 echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#splitModal">' . ($t['split'] ?? 'Split') . '</a>';;
             } elseif ($active && $action === 'compress'){

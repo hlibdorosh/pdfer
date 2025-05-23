@@ -24,6 +24,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
         $_SESSION['email'] = $user['email'];
+
+        // === LOG TO HISTORY ===
+        $user_id = $user['id'];
+        $action = 'login';
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $location = ''; // можна GeoIP прикрутити
+        $used_api = 'login_form';
+        $created_at = date('Y-m-d H:i:s');
+
+        try {
+            $stmt = $db->prepare("INSERT INTO history (user_id, action, ip, location, used_api, created_at) 
+                                  VALUES (:user_id, :action, :ip, :location, :used_api, :created_at)");
+            $stmt->execute([
+                ':user_id' => $user_id,
+                ':action' => $action,
+                ':ip' => $ip,
+                ':location' => $location,
+                ':used_api' => $used_api,
+                ':created_at' => $created_at
+            ]);
+
+
+        } catch (PDOException $e) {
+            error_log("Login history insert failed: " . $e->getMessage());
+        }
+
         header("Location: pdfile.php");
         exit;
     } else {

@@ -73,7 +73,8 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             ['add_watermark', 'watermark'],
             ['remove_pages', 'remove', true],
             ['extract_images', 'extract'],
-            ['pdf_to_images', 'pdf2img'],
+            ['View PDF Info', 'info', true],
+
         ];
 
 
@@ -96,6 +97,8 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
                 echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#splitModal">' . ($t['split'] ?? 'Split') . '</a>';;
             } elseif ($active && $action === 'compress'){
                 echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#compressModal">' . ($t['compress'] ?? 'Compress') . '</a>';
+            } elseif ($active && $action === 'info'){
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#infoModal">View Info</a>';
             }
             else {
                 echo '<a href="#" class="btn btn-outline-primary btn-sm mt-2 disabled">Coming soon</a>';
@@ -182,6 +185,26 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
 </div>
 
 
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="infoForm" class="modal-content" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h5 class="modal-title">PDF Metadata Viewer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label>Select PDF file:</label>
+                <input type="file" name="file" class="form-control" accept="application/pdf" required>
+
+                <div class="alert alert-danger mt-3 d-none" id="infoError"></div>
+                <pre class="bg-light p-2 mt-3 border rounded d-none" id="infoOutput"></pre>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit">View Info</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 
 
@@ -283,6 +306,35 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             errorBox.classList.remove("d-none");
         }
     });
+
+
+    document.getElementById("infoForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const output = document.getElementById("infoOutput");
+        const errorBox = document.getElementById("infoError");
+        output.classList.add("d-none");
+        errorBox.classList.add("d-none");
+
+        try {
+            const res = await fetch("api/pdfinfo.php", {
+                method: "POST",
+                body: data
+            });
+
+            const result = await res.json();
+            if (result.error) throw new Error(result.error);
+
+            output.textContent = result.info;
+            output.classList.remove("d-none");
+        } catch (err) {
+            errorBox.textContent = err.message;
+            errorBox.classList.remove("d-none");
+        }
+    });
+
+
 
 
 

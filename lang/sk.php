@@ -35,7 +35,6 @@ return [
     'view_info' => 'Zobraziť informácie',
 
     'history' => 'História',
-
-
+     //pepepopo 
 
 ];

@@ -13,4 +13,17 @@ return [
     'welcome' => 'Vitaj',
     'logout' => 'Odhlásiť sa',
 
+    'pdf_tools' => 'PDF nástroje',
+    'merge_pdf_files' => 'Zlúčiť PDF súbory',
+    'select_files_to_merge' => 'Vyberte PDF súbory na zlúčenie:',
+    'merge' => 'Zlúčiť',
+    'split_pdf' => 'Rozdeliť PDF',
+    'choose_pdf_file' => 'Vyberte PDF súbor:',
+    'pages_to_extract' => 'Strany na extrahovanie (napr. 1-2,4,6):',
+    'split' => 'Rozdeliť',
+    'compress_pdf' => 'Komprimovať PDF',
+    'choose_pdf_to_compress' => 'Vyberte PDF na kompresiu:',
+    'compress' => 'Komprimovať',
+    'coming_soon' => 'Už čoskoro',
+    'merge_pdf' => 'Zlúčiť PDF',
 ];

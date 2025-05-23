@@ -43,23 +43,26 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
         </div>
     </div>
 
-    <h2 class="text-center mb-4">PDF Tools</h2>
+    <h2 class="text-center mb-4"><?= $t['pdf_tools'] ?></h2>
 
     <div class="row row-cols-2 row-cols-md-4 g-4">
         <?php
         $tools = [
-            ['Merge PDF', 'merge', true],
-            ['Split PDF', 'split', true],
-            ['Compress PDF', 'compress', true],
-            ['Rotate Pages', 'rotate'],
-            ['Add Watermark', 'watermark'],
-            ['Remove Pages', 'remove', true],
-            ['Extract Images', 'extract'],
-            ['PDF to Images', 'pdf2img'],
+            ['merge_pdf', 'merge', true],
+            ['split_pdf', 'split', true],
+            ['compress_pdf', 'compress', true],
+            ['rotate_pages', 'rotate'],
+            ['add_watermark', 'watermark'],
+            ['remove_pages', 'remove', true],
+            ['extract_images', 'extract'],
+            ['pdf_to_images', 'pdf2img'],
         ];
 
+
         foreach ($tools as $tool) {
-            $title = $tool[0];
+
+            $titleKey = $tool[0];
+            $title = $t[$titleKey] ?? $titleKey;
             $action = $tool[1];
             $active = $tool[2] ?? false;
 
@@ -70,11 +73,11 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             <h6 class="mt-2">' . $title . '</h6>';
 
             if ($active && $action === 'merge') {
-                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#mergeModal">Merge</a>';
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#mergeModal">' . ($t['merge'] ?? 'Merge') . '</a>';
             } elseif ($active && $action === 'split') {
-                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#splitModal">Split</a>';
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#splitModal">' . ($t['split'] ?? 'Split') . '</a>';;
             } elseif ($active && $action === 'compress'){
-                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#compressModal">Compress</a>';
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#compressModal">' . ($t['compress'] ?? 'Compress') . '</a>';
             }
             else {
                 echo '<a href="#" class="btn btn-outline-primary btn-sm mt-2 disabled">Coming soon</a>';
@@ -98,17 +101,17 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
     <div class="modal-dialog">
         <form id="mergeForm" class="modal-content" enctype="multipart/form-data">
             <div class="modal-header">
-                <h5 class="modal-title" id="mergeLabel">Merge PDF Files</h5>
+                <h5 class="modal-title" id="mergeLabel"><?= $t['merge_pdf_files'] ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <label>Select PDF files to merge:</label>
+                <label><?= $t['select_files_to_merge'] ?></label>
                 <input type="file" name="files[]" class="form-control mt-2" multiple required accept="application/pdf">
                 <div class="alert alert-danger mt-3 d-none" id="mergeError"></div>
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Merge</button>
+                <button type="submit" class="btn btn-primary"><?= $t['merge'] ?></button>
             </div>
         </form>
     </div>
@@ -120,20 +123,20 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
     <div class="modal-dialog">
         <form id="splitForm" class="modal-content" enctype="multipart/form-data">
             <div class="modal-header">
-                <h5 class="modal-title" id="splitLabel">Split PDF</h5>
+                <h5 class="modal-title" id="splitLabel"><?= $t['split_pdf'] ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <label>Choose PDF file:</label>
+                <label><?= $t['choose_pdf_file'] ?></label>
                 <input type="file" name="file" accept="application/pdf" class="form-control" required>
 
-                <label class="mt-3">Pages to extract (e.g. 1-2,4,6):</label>
+                <label class="mt-3"><?= $t['pages_to_extract'] ?></label>
                 <input type="text" name="pages" class="form-control" required placeholder="1-3,5,6-7">
 
                 <div class="alert alert-danger mt-3 d-none" id="splitError"></div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Split</button>
+                <button type="submit" class="btn btn-primary"><?= $t['split'] ?></button>
             </div>
         </form>
     </div>
@@ -145,16 +148,16 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
     <div class="modal-dialog">
         <form id="compressForm" class="modal-content" enctype="multipart/form-data">
             <div class="modal-header">
-                <h5 class="modal-title" id="compressLabel">Compress PDF</h5>
+                <h5 class="modal-title" id="compressLabel"><?= $t['compress_pdf'] ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <label>Choose PDF to compress:</label>
+                <label><?= $t['choose_pdf_to_compress'] ?></label>
                 <input type="file" name="file" accept="application/pdf" class="form-control" required>
                 <div class="alert alert-danger mt-3 d-none" id="compressError"></div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Compress</button>
+                <<button type="submit" class="btn btn-primary"><?= $t['compress'] ?></button>
             </div>
         </form>
     </div>

@@ -8,7 +8,7 @@ echo "</pre>";
 exec("which gs", $out);
 echo "GS path: " . implode(', ', $out) . "<br>";
 
-echo "Temp dir writable: " . (is_writable(__DIR__ . '/../../temp/') ? 'YES' : 'NO');
+echo "Temp dir writable: " . (is_writable(__DIR__ . '/../temp/') ? 'YES' : 'NO');
 
 
 ini_set('display_errors', 1);
@@ -31,7 +31,7 @@ if (!isset($_FILES['file']) || $_FILES['file']['error'] !== 0) {
 
 // Створюємо тимчасові імена
 $input = $_FILES['file']['tmp_name'];
-$output = __DIR__ . '/../../temp/compressed_' . uniqid() . '.pdf';
+$output = __DIR__ . '/../temp/compressed_' . uniqid() . '.pdf';
 
 // Перевірка чи Ghostscript доступний
 exec("which gs", $out);

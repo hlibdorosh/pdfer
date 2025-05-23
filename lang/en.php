@@ -13,4 +13,17 @@ return [
     'welcome' => 'Welcome',
     'logout' => 'Logout',
 
+    'pdf_tools' => 'PDF Tools',
+    'merge_pdf_files' => 'Merge PDF Files',
+    'select_files_to_merge' => 'Select PDF files to merge:',
+    'merge' => 'Merge',
+    'split_pdf' => 'Split PDF',
+    'choose_pdf_file' => 'Choose PDF file:',
+    'pages_to_extract' => 'Pages to extract (e.g. 1-2,4,6):',
+    'split' => 'Split',
+    'compress_pdf' => 'Compress PDF',
+    'choose_pdf_to_compress' => 'Choose PDF to compress:',
+    'compress' => 'Compress',
+    'coming_soon' => 'Coming soon',
+    'merge_pdf' => 'Merge PDF',
 ];

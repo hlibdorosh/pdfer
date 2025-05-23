@@ -50,10 +50,10 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
         $tools = [
             ['Merge PDF', 'merge', true],
             ['Split PDF', 'split', true],
-            ['Compress PDF', 'compress'],
+            ['Compress PDF', 'compress', true],
             ['Rotate Pages', 'rotate'],
             ['Add Watermark', 'watermark'],
-            ['Remove Pages', 'remove'],
+            ['Remove Pages', 'remove', true],
             ['Extract Images', 'extract'],
             ['PDF to Images', 'pdf2img'],
         ];
@@ -73,9 +73,14 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
                 echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#mergeModal">Merge</a>';
             } elseif ($active && $action === 'split') {
                 echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#splitModal">Split</a>';
-            } else {
+            } elseif ($active && $action === 'compress'){
+                echo '<a href="#" class="btn btn-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#compressModal">Compress</a>';
+            }
+            else {
                 echo '<a href="#" class="btn btn-outline-primary btn-sm mt-2 disabled">Coming soon</a>';
             }
+
+
 
 
             echo '
@@ -133,6 +138,31 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
         </form>
     </div>
 </div>
+
+
+<!-- Compress Modal -->
+<div class="modal fade" id="compressModal" tabindex="-1" aria-labelledby="compressLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="compressForm" class="modal-content" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h5 class="modal-title" id="compressLabel">Compress PDF</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label>Choose PDF to compress:</label>
+                <input type="file" name="file" accept="application/pdf" class="form-control" required>
+                <div class="alert alert-danger mt-3 d-none" id="compressError"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Compress</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
 
 
 <script>
@@ -199,6 +229,42 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             errorBox.classList.remove("d-none");
         }
     });
+
+
+
+
+    document.getElementById("compressForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const errorBox = document.getElementById("compressError");
+        errorBox.classList.add("d-none");
+
+        try {
+            const res = await fetch("api/compress.php", {
+                method: "POST",
+                body: data
+            });
+
+            if (!res.ok) throw new Error("Compression failed");
+
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "compressed.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            bootstrap.Modal.getInstance(document.getElementById('compressModal')).hide();
+        } catch (err) {
+            errorBox.innerText = err.message;
+            errorBox.classList.remove("d-none");
+        }
+    });
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

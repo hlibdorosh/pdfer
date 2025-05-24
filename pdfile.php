@@ -53,6 +53,9 @@ $t = file_exists($lang_file) ? require $lang_file : require __DIR__ . "/lang/en.
             <?php if ($admin): ?>
                 <a href="history.php" class="btn btn-warning btn-sm"><?= $t['history'] ?? 'History' ?></a>
             <?php endif; ?>
+            <a href="manual.php" class="btn btn-success btn-sm"><?= $t['manual'] ?? 'Manual' ?></a>
+
+
         </div>
         <div>
             <a href="?lang=en" class="btn btn-primary btn-sm">EN</a>

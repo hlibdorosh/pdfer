@@ -35,6 +35,19 @@ return [
     'view_info' => 'Zobraziť informácie',
 
     'history' => 'História',
+    'manual' => 'Príručka',
+
+    'title' => 'Admin História',
+    'back' => 'Späť',
+    'action' => 'Akcia',
+    'user' => 'Používateľ',
+    'ip' => 'IP adresa',
+    'timestamp' => 'Čas',
+    'delete' => 'Vymazať',
+    'no_history' => 'Žiadna história zatiaľ nie je.',
+    'confirm_delete' => 'Naozaj chceš vymazať túto položku?',
+
+
 
     //for manual
     'user_manual_html' => <<<HTML

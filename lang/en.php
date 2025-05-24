@@ -35,6 +35,18 @@ return [
     'view_info' => 'View Info',
 
     'history' => 'History',
+    'manual' => 'Manual',
+
+    'title' => 'Admin History Log',
+    'back' => 'Back',
+    'action' => 'Action',
+    'user' => 'User',
+    'ip' => 'IP',
+    'timestamp' => 'Timestamp',
+    'delete' => 'Delete',
+    'no_history' => 'No history yet.',
+    'confirm_delete' => 'Are you sure you want to delete this entry?',
+
 
     //for manual
     'user_manual_html' => <<<HTML

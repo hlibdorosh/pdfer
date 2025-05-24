@@ -36,6 +36,35 @@ return [
 
     'history' => 'História',
 
+    //for manual
+    'user_manual_html' => <<<HTML
+<h2>Používateľská príručka</h2>
+<p>Aplikácia umožňuje používateľovi upravovať PDF súbory priamo cez webové rozhranie (frontend) alebo pomocou API požiadaviek.</p>
+
+<h3>Frontend (grafické rozhranie)</h3>
+<p>Po prihlásení sa používateľ dostane na hlavnú stránku s prehľadom dostupných nástrojov:</p>
+<ul>
+  <li><strong>Merge PDF</strong> – zlúči viacero PDF do jedného</li>
+  <li><strong>Split PDF</strong> – rozdelí PDF na jednotlivé strany</li>
+  <li><strong>Compress PDF</strong> – zmenší veľkosť PDF</li>
+  <li><strong>PDF Metadata</strong> – zobrazí technické údeje o súbore (počet strán, autor atĎ.)</li>
+</ul>
+
+<p>Každý nástroj sa používa pomocou modálneho okna – kliknutím na tlačidlo sa otvorí dialóg, kde je možné nahrať súbor a zvoliť akciu.</p>
+
+<h3>API rozhranie</h3>
+<p>Aplikácia má vytvorené jednoduché API pre jednotlivé funkcie. Požiadavky sa posielajú cez <code>POST</code> na konkrétne koncové body (endpointy), ako napríklad:</p>
+<ul>
+  <li><code>api/merge.php</code> – zlúčenie PDF</li>
+  <li><code>api/split.php</code> – rozdelenie PDF</li>
+  <li><code>api/compress.php</code> – komprimácia</li>
+  <li><code>api/pdfinfo.php</code> – zobrazenie informácií</li>
+</ul>
+
+<p>API vyžaduje zaslanie <code>multipart/form-data</code> formulárov s nahratým súborom <code>file</code> a podľa potreby aj s ďalšími parametrami (napr. <code>pages</code> pre split/remove).</p>
+
+HTML
+
 
 
 ];

@@ -36,5 +36,35 @@ return [
 
     'history' => 'History',
 
+    //for manual
+    'user_manual_html' => <<<HTML
+<h2>User Guide</h2>
+<p>The application allows users to edit PDF files directly through the web interface (frontend) or via API requests.</p>
+
+<h3>Frontend (Graphical Interface)</h3>
+<p>After logging in, the user is redirected to the main page with an overview of available tools:</p>
+<ul>
+  <li><strong>Merge PDF</strong> – merges multiple PDFs into one</li>
+  <li><strong>Split PDF</strong> – splits PDF into individual pages</li>
+  <li><strong>Compress PDF</strong> – reduces PDF size</li>
+  <li><strong>PDF Metadata</strong> – displays technical information about the file (page count, author, etc.)</li>
+</ul>
+
+<p>Each tool is accessed via a modal window – clicking the button opens a dialog to upload a file and perform the action.</p>
+
+<h3>API Interface</h3>
+<p>The application provides a simple API for individual functions. Requests are sent using <code>POST</code> to specific endpoints, such as:</p>
+<ul>
+  <li><code>api/merge.php</code> – PDF merging</li>
+  <li><code>api/split.php</code> – PDF splitting</li>
+  <li><code>api/compress.php</code> – compression</li>
+  <li><code>api/pdfinfo.php</code> – displaying information</li>
+</ul>
+
+<p>The API requires <code>multipart/form-data</code> form submissions with an uploaded <code>file</code> and, if needed, additional parameters (e.g., <code>pages</code> for split/remove).</p>
+
+
+HTML
+
 
 ];

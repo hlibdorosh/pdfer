@@ -14,6 +14,11 @@ $options->set('isRemoteEnabled', true);
 $options->set('defaultFont', 'DejaVu Sans');
 $dompdf = new Dompdf($options);
 
+
+// Встановлюємо мову з параметра URL або за замовчуванням 'sk'
+$lang = $_GET['lang'] ?? $_SESSION['lang'] ?? 'sk';
+$_SESSION['lang'] = $lang;
+
 // Інформує manual.php, що генеруємо PDF
 $isPdf = true;
 
@@ -21,8 +26,10 @@ ob_start();
 include __DIR__ . '/../manual.php';
 $html = ob_get_clean();
 
-// Додаємо клас pdf до body, щоб .noprint не потрапила в PDF
-$html = str_replace('<body>', '<body class="pdf">', $html);
+// Додаємо клас pdf до <body>
+$html = preg_replace('/<body([^>]*)class="([^"]*)"/', '<body$1class="$2 pdf"', $html);
+$html = preg_replace('/<body([^>]*)>/', '<body$1 class="pdf">', $html);
+
 
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4');

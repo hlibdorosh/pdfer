@@ -5,8 +5,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../config.php'; // Додаємо конфіг
 
 use setasign\Fpdi\Fpdi;
+
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -26,7 +29,6 @@ if (empty($_POST['pages'])) {
     exit;
 }
 
-// Парсимо сторінки: "1-3,5,7" => [1,2,3,5,7]
 function parsePages($input, $maxPage) {
     $result = [];
     $parts = explode(',', $input);
@@ -48,7 +50,6 @@ function parsePages($input, $maxPage) {
     return array_unique($result);
 }
 
-// Читаємо PDF
 $tmpFile = $_FILES['file']['tmp_name'];
 $pdf = new Fpdi();
 $pageCount = $pdf->setSourceFile($tmpFile);
@@ -61,12 +62,37 @@ if (empty($pagesToExtract)) {
     exit;
 }
 
-// Створюємо новий PDF з вибраними сторінками
 foreach ($pagesToExtract as $pageNum) {
     $tpl = $pdf->importPage($pageNum);
     $size = $pdf->getTemplateSize($tpl);
     $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
     $pdf->useTemplate($tpl);
+}
+
+// === ЛОГУЄМО В ІСТОРІЮ ===
+$conn = connectDatabase($hostname, $database, $username, $password);
+if ($conn) {
+    $user_id = $_SESSION['user_id'] ?? null;
+    $action = 'split_pdf';
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $location = ''; // Геолокація, якщо буде бажання прикрутить
+    $used_api = 'pdf_split';
+    $created_at = date('Y-m-d H:i:s');
+
+    try {
+        $stmt = $conn->prepare("INSERT INTO history (user_id, action, ip, location, used_api, created_at)
+            VALUES (:user_id, :action, :ip, :location, :used_api, :created_at)");
+        $stmt->execute([
+            ':user_id' => $user_id,
+            ':action' => $action,
+            ':ip' => $ip,
+            ':location' => $location,
+            ':used_api' => $used_api,
+            ':created_at' => $created_at
+        ]);
+    } catch (PDOException $e) {
+        error_log("History insert failed: " . $e->getMessage());
+    }
 }
 
 header('Content-Type: application/pdf');
